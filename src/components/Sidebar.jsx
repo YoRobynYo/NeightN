@@ -7,26 +7,28 @@ import {
   FileText, 
   BarChart3, 
   HelpCircle,
-  Workflow
+  Workflow,
+  Plus
 } from 'lucide-react';
 
-const Sidebar = ({ activeSection, onSectionChange }) => {
+// Add onAddProject to the component props
+const Sidebar = ({ activeSection, onSectionChange, onAddProject }) => {
   const navSections = [
     {
-      title: 'Main',
+      title: 'MAIN',
       items: [
         { id: 'overview', label: 'Overview', icon: Home },
       ]
     },
     {
-      title: 'Projects',
+      title: 'PROJECTS',
       items: [
         { id: 'personal', label: 'Personal', icon: User },
         { id: 'youtube-tutorials', label: 'YouTube Tutorials', icon: Youtube },
       ]
     },
     {
-      title: 'Tools',
+      title: 'TOOLS',
       items: [
         { id: 'admin-panel', label: 'Admin Panel', icon: Settings },
         { id: 'templates', label: 'Templates', icon: FileText },
@@ -39,19 +41,44 @@ const Sidebar = ({ activeSection, onSectionChange }) => {
 
   return (
     <div className="sidebar">
+      {/* Separator line at the VERY TOP */}
+      <div className="sidebar-separator"></div>
+      
+      {/* Logo and name UNDER the separator */}
       <div className="sidebar-header">
         <div className="logo">
           <div className="logo-icon">
-            <Workflow size={20} />
+            <Workflow size={35} />
           </div>
           <span className="logo-text">neightn</span>
         </div>
       </div>
-      
+
       <div className="sidebar-nav">
         {navSections.map((section) => (
           <div key={section.title} className="nav-section">
             <div className="nav-title">{section.title}</div>
+            
+            {/* Add project button for PROJECTS section - NOW FUNCTIONAL */}
+            {section.title === 'PROJECTS' && (
+              <div 
+                className="create-project-button"
+                onClick={() => {
+                  console.log('Sidebar button clicked - dispatching event!');
+                  window.dispatchEvent(new CustomEvent('openProjectBuilder'));
+                }}
+                style={{ 
+                  cursor: 'pointer',
+                  // Remove red background once it works
+                  // backgroundColor: 'green', 
+                  zIndex: 999
+                }}
+              >
+                <Plus size={14} />
+                <span>Create Project</span>
+              </div>
+            )}
+
             <ul className="nav-items">
               {section.items.map((item) => {
                 const Icon = item.icon;

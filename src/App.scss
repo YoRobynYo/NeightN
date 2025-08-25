@@ -1,16 +1,43 @@
-// Variables
+// App.scss - Fixed version with Project Builder styles
+// ===== VARIABLES MUST BE AT THE VERY TOP =====
 $primary-color: #6366f1;
 $secondary-color: #8b5cf6;
 $background-dark: #1e1b4b;
 $background-light: #312e81;
+$sidebar-bg: #152232;
+$header-bg: #0B1C2C;
+$editor-bg: #061626;
 $sidebar-width: 280px;
 $header-height: 60px;
 $text-light: #f8fafc;
 $text-muted: #cbd5e1;
 $border-color: #475569;
 $hover-color: #4338ca;
+$success-color: #10b981;
+$error-color: #ef4444;
+$warning-color: #f59e0b;
 
-// Global styles
+// ===== MIXINS FOR REUSABILITY =====
+@mixin button-base {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid $border-color;
+}
+
+@mixin glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// ===== GLOBAL STYLES =====
 * {
   margin: 0;
   padding: 0;
@@ -22,71 +49,275 @@ body {
   background: linear-gradient(135deg, $background-dark 0%, $background-light 100%);
   color: $text-light;
   overflow: hidden;
+  line-height: 1.5;
 }
 
 .app {
   display: flex;
   height: 100vh;
   width: 100vw;
+  position: relative;
 }
 
-// Main content area
-.main-content {
-  flex: 1;
+// ===== HEADER STYLES ===== 
+.header {
+  height: $header-height;
+  background: $header-bg;
+  @include glass-effect;
+  border-bottom: 1px solid $border-color;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 5;
+  color: $text-light;
+  font-size: 14px;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+
+    .workflow-tabs {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      .tab {
+        @include button-base;
+        background: rgba($primary-color, 0.1);
+        color: $text-light;
+        font-weight: 400;
+
+        &:hover {
+          background: rgba($primary-color, 0.2);
+          transform: translateY(-1px);
+        }
+
+        &.active {
+          background: $primary-color;
+          border-color: $primary-color;
+          color: white;
+          font-weight: 500;
+        }
+
+        .tab-icon {
+          opacity: 0.8;
+        }
+      }
+
+      .add-tab {
+        @include button-base;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        justify-content: center;
+        background: rgba($primary-color, 0.1);
+        color: $text-muted;
+
+        &:hover {
+          background: rgba($primary-color, 0.2);
+          color: $text-light;
+        }
+      }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .header-button {
+      @include button-base;
+      background: rgba($primary-color, 0.1);
+      color: $text-light;
+
+      &:hover {
+        background: rgba($primary-color, 0.2);
+        transform: translateY(-1px);
+      }
+
+      &.primary {
+        background: $primary-color;
+        border-color: $primary-color;
+        color: white;
+
+        &:hover {
+          background: $hover-color;
+        }
+      }
+
+      &.secondary {
+        background: transparent;
+        border-color: rgba($primary-color, 0.3);
+
+        &:hover {
+          background: rgba($primary-color, 0.1);
+        }
+      }
+    }
+
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .toggle-label {
+        font-size: 14px;
+        color: $text-muted;
+        min-width: 60px;
+        text-align: right;
+      }
+
+      .switch {
+        width: 48px;
+        height: 24px;
+        background: $border-color;
+        border-radius: 12px;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &.active {
+          background: $success-color;
+        }
+
+        .switch-handle {
+          width: 20px;
+          height: 20px;
+          background: white;
+          border-radius: 50%;
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          transition: transform 0.3s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        &.active .switch-handle {
+          transform: translateX(24px);
+        }
+      }
+    }
+
+    .workflow-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba($primary-color, 0.1);
+      font-weight: 600;
+
+      .star-icon {
+        color: $warning-color;
+      }
+    }
+  }
 }
 
-// Sidebar styles - ADD THIS TO YOUR EXISTING App.scss
+// ===== SIDEBAR STYLES =====
 .sidebar {
   width: $sidebar-width;
-  background: rgba(30, 27, 75, 0.9);
-  backdrop-filter: blur(10px);
+  background: $sidebar-bg;
+  @include glass-effect;
   border-right: 1px solid $border-color;
   display: flex;
   flex-direction: column;
   z-index: 10;
+  padding-top: 120px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($primary-color, 0.3);
+    border-radius: 3px;
+
+    &:hover {
+      background: rgba($primary-color, 0.5);
+    }
+  }
+
+  .sidebar-separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, $border-color 50%, transparent 100%);
+    margin: 40px 0;
+    width: 100%;
+  }
 
   .sidebar-header {
-    padding: 20px;
-    border-bottom: 1px solid $border-color;
+    padding: 0 20px 32px 20px;
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 20px;
+      gap: 20px;
+      font-size: 25px;
       font-weight: 600;
       color: $text-light;
 
       .logo-icon {
-        width: 32px;
-        height: 32px;
+        width: 75px;
+        height: 45px;
         background: linear-gradient(45deg, $primary-color, $secondary-color);
         border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba($primary-color, 0.3);
       }
     }
   }
 
   .sidebar-nav {
     flex: 1;
-    padding: 20px 0;
+    padding: 0 0 20px 0;
 
     .nav-section {
-      margin-bottom: 30px;
+      margin-top: 32px;
+      margin-bottom: 32px;
 
       .nav-title {
-        padding: 0 20px 10px;
-        font-size: 12px;
+        padding: 0 20px 8px 20px;
+        font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
         color: $text-muted;
         letter-spacing: 1px;
+      }
+
+      .create-project-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        background: rgba($primary-color, 0.1);
+        border: 1px solid $primary-color;
+        border-radius: 10px;
+        color: $primary-color;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        margin: 16px 20px 32px 20px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: rgba($primary-color, 0.2);
+          color: lighten($primary-color, 10%);
+          transform: translateY(-1px);
+        }
       }
 
       .nav-items {
@@ -97,7 +328,7 @@ body {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 20px;
+            padding: 10px 20px;
             color: $text-light;
             text-decoration: none;
             transition: all 0.2s ease;
@@ -105,12 +336,12 @@ body {
             cursor: pointer;
 
             &:hover {
-              background: rgba(99, 102, 241, 0.1);
+              background: rgba($primary-color, 0.1);
               border-left-color: $primary-color;
             }
 
             &.active {
-              background: rgba(99, 102, 241, 0.2);
+              background: rgba($primary-color, 0.2);
               border-left-color: $primary-color;
               color: $primary-color;
             }
@@ -121,6 +352,91 @@ body {
             }
           }
         }
+      }
+    }
+  }
+}
+
+// ===== MAIN CONTENT AREA =====
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 105px;
+}
+
+// ===== WORKFLOW EDITOR =====
+.workflow-editor {
+  flex: 1;
+  background: $editor-bg !important;
+}
+
+// ===== PROJECT BUILDER STYLES =====
+.project-builder {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // ← CENTERS EVERYTHING ←
+  justify-content: center;
+  min-height: 100%; // ← FULL HEIGHT CENTERING ←
+
+  .builder-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h2 {
+      font-size: 32px; // ← LARGER TEXT ←
+      font-weight: 700;
+      color: $text-light;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: $text-muted;
+      font-size: 18px; // ← LARGER TEXT ←
+    }
+  }
+
+  .builder-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    width: 100%; // ← FULL WIDTH ←
+
+    .project-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid $border-color;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        border-color: $primary-color;
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+      }
+
+      .box-icon {
+        font-size: 32px;
+        margin-bottom: 16px;
+      }
+
+      .box-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: $text-light;
+        margin-bottom: 8px;
+      }
+
+      .box-description {
+        color: $text-muted;
+        font-size: 14px;
+        line-height: 1.5;
       }
     }
   }
