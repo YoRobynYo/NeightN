@@ -102,6 +102,7 @@ function App() {
           onWorkflowChange={setActiveWorkflow}
           onExecuteWorkflow={handleExecuteWorkflow}
         />
+
         <WorkflowEditor 
           isExecuting={isExecuting}
           onNodeStatusChange={(nodeId, status) => {
@@ -110,6 +111,9 @@ function App() {
           showProjectBuilder={showProjectBuilder}
           projectData={currentProject}
           onSave={handleSaveWorkflow}
+          projectTypes={projectTypes}
+          onProjectSelect={handleProjectSelect}
+          onCloseProjectBuilder={() => setShowProjectBuilder(false)}
         />
       </div>
       
