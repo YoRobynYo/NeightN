@@ -11,8 +11,7 @@ const RightSidebar = ({
 }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // Debug logging
-  console.log('RightSidebar state:', { isPanelOpen, isCollapsed, openPanel1Trigger });
+  // Debug logging removed for cleanliness
 
   // + button - always OPENS the panel
   useEffect(() => {

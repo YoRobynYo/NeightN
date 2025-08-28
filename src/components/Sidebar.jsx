@@ -64,8 +64,7 @@ const Sidebar = ({ activeSection, onSectionChange, onAddProject }) => {
               <div 
                 className="create-project-button"
                 onClick={() => {
-                  console.log('Sidebar button clicked - dispatching event!');
-                  window.dispatchEvent(new CustomEvent('openProjectBuilder'));
+                  if (onAddProject) onAddProject();
                 }}
                 style={{ 
                   cursor: 'pointer',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Plus, Copy as CopyIcon, Sparkles, PanelRightOpen, PanelRightClose } from 'lucide-react';
 
 const ActionButtons = ({ 
   onOpenNodesPanel, 
@@ -69,7 +70,7 @@ const ActionButtons = ({
         onMouseEnter={() => setShowTooltip('nodes')}
         onMouseLeave={() => setShowTooltip(null)}
       >
-        <span style={{ fontSize: '24px' }}>+</span>
+        <Plus size={22} />
         {showTooltip === 'nodes' && <div style={tooltipStyle}>Open nodes panel (Tab)</div>}
       </div>
 
@@ -80,7 +81,7 @@ const ActionButtons = ({
         onMouseEnter={() => setShowTooltip('copy')}
         onMouseLeave={() => setShowTooltip(null)}
       >
-        <span style={{ fontSize: '18px' }}>📄</span>
+        <CopyIcon size={18} />
         {showTooltip === 'copy' && <div style={tooltipStyle}>Copy</div>}
       </div>
 
@@ -91,7 +92,7 @@ const ActionButtons = ({
         onMouseEnter={() => setShowTooltip('sidebar')}
         onMouseLeave={() => setShowTooltip(null)}
       >
-        <span style={{ fontSize: '16px' }}>⊞</span>
+        {isSidebarCollapsed ? <PanelRightOpen size={18} /> : <PanelRightClose size={18} />}
         {showTooltip === 'sidebar' && <div style={tooltipStyle}>Toggle Sidebar (↑F)</div>}
       </div>
 
@@ -102,7 +103,7 @@ const ActionButtons = ({
         onMouseEnter={() => setShowTooltip('ai')}
         onMouseLeave={() => setShowTooltip(null)}
       >
-        <span style={{ fontSize: '18px' }}>✨</span>
+        <Sparkles size={18} />
         {showTooltip === 'ai' && <div style={tooltipStyle}>AI Assistant</div>}
       </div>
     </div>
