@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import WorkflowEditor from './components/WorkflowEditor';
@@ -19,7 +19,15 @@ function App() {
   const [projects, setProjects] = useState(mockWorkflows);
   const [currentProject, setCurrentProject] = useState(null);
 
-  // Sidebar will call onAddProject prop directly; no global event listeners
+  useEffect(() => {
+    const handleOpenBuilder = () => {
+      console.log('openProjectBuilder event received in App!');
+      setShowProjectBuilder(true);
+    };
+    
+    window.addEventListener('openProjectBuilder', handleOpenBuilder);
+    return () => window.removeEventListener('openProjectBuilder', handleOpenBuilder);
+  }, []);
 
   const projectTypes = [
     {
@@ -86,8 +94,7 @@ function App() {
     <div className="app">
       <Sidebar 
         activeSection={activeSection} 
-        onSectionChange={setActiveSection}
-        onAddProject={() => setShowProjectBuilder(true)}
+        onSectionChange={setActiveSection} 
       />
       <div className="main-content">
         <Header 

@@ -64,48 +64,56 @@ const ActionButtons = ({
   return (
     <div style={actionButtonsStyle}>
       {/* + Button opens Panel 1 */}
-      <div
+      <button
+        type="button"
+        aria-label="Open nodes panel"
         style={highlightedStyle}
         onClick={onOpenNodesPanel}
         onMouseEnter={() => setShowTooltip('nodes')}
         onMouseLeave={() => setShowTooltip(null)}
       >
         <Plus size={22} />
-        {showTooltip === 'nodes' && <div style={tooltipStyle}>Open nodes panel (Tab)</div>}
-      </div>
+        {showTooltip === 'nodes' && <div style={tooltipStyle} aria-hidden>Open nodes panel (Tab)</div>}
+      </button>
 
       {/* Copy Button */}
-      <div
+      <button
+        type="button"
+        aria-label="Copy"
         style={actionBtnStyle}
         onClick={onCopy}
         onMouseEnter={() => setShowTooltip('copy')}
         onMouseLeave={() => setShowTooltip(null)}
       >
         <CopyIcon size={18} />
-        {showTooltip === 'copy' && <div style={tooltipStyle}>Copy</div>}
-      </div>
+        {showTooltip === 'copy' && <div style={tooltipStyle} aria-hidden>Copy</div>}
+      </button>
 
       {/* Sidebar Toggle */}
-      <div
+      <button
+        type="button"
+        aria-label="Toggle sidebar"
         style={actionBtnStyle}
         onClick={onToggleCollapse}
         onMouseEnter={() => setShowTooltip('sidebar')}
         onMouseLeave={() => setShowTooltip(null)}
       >
         {isSidebarCollapsed ? <PanelRightOpen size={18} /> : <PanelRightClose size={18} />}
-        {showTooltip === 'sidebar' && <div style={tooltipStyle}>Toggle Sidebar (↑F)</div>}
-      </div>
+        {showTooltip === 'sidebar' && <div style={tooltipStyle} aria-hidden>Toggle Sidebar (↑F)</div>}
+      </button>
 
       {/* AI Assistant */}
-      <div
+      <button
+        type="button"
+        aria-label="Toggle AI assistant"
         style={{ ...actionBtnStyle, background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', color: 'white' }}
         onClick={onToggleAI}
         onMouseEnter={() => setShowTooltip('ai')}
         onMouseLeave={() => setShowTooltip(null)}
       >
         <Sparkles size={18} />
-        {showTooltip === 'ai' && <div style={tooltipStyle}>AI Assistant</div>}
-      </div>
+        {showTooltip === 'ai' && <div style={tooltipStyle} aria-hidden>AI Assistant</div>}
+      </button>
     </div>
   );
 };

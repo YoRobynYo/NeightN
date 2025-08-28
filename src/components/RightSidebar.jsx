@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import PanelManager from './PanelManager';
 
@@ -11,17 +11,17 @@ const RightSidebar = ({
 }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // Debug logging removed for cleanliness
+  // Debug logging
+  console.log('RightSidebar state:', { isPanelOpen, isCollapsed, openPanel1Trigger });
 
-  // + button - always OPENS the panel
+  // React only when the + trigger increments (event-like counter)
+  const lastTriggerRef = useRef(openPanel1Trigger);
   useEffect(() => {
-    if (openPanel1Trigger) {
-      setIsPanelOpen(true);
-      
-      // If sidebar is collapsed, expand it first
-      if (isCollapsed) {
-        onToggleCollapse();
-      }
+    if (openPanel1Trigger === lastTriggerRef.current) return;
+    lastTriggerRef.current = openPanel1Trigger;
+    setIsPanelOpen(true);
+    if (isCollapsed) {
+      onToggleCollapse();
     }
   }, [openPanel1Trigger, isCollapsed, onToggleCollapse]);
 
@@ -63,7 +63,7 @@ RightSidebar.propTypes = {
   onStartDragNewNode: PropTypes.func.isRequired,
   isCollapsed: PropTypes.bool,
   onToggleCollapse: PropTypes.func.isRequired,
-  openPanel1Trigger: PropTypes.bool,
+  openPanel1Trigger: PropTypes.number,
 };
 
 export default RightSidebar;

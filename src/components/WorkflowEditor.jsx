@@ -9,7 +9,7 @@ const WorkflowEditor = ({ isExecuting, onNodeStatusChange, showProjectBuilder, p
   const [draggingNode, setDraggingNode] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true); // Start collapsed
-  const [openPanel1, setOpenPanel1] = useState(false);
+  const [openPanel1, setOpenPanel1] = useState(0); // Incrementing trigger for opening panel 1
   const [showNodeMenu, setShowNodeMenu] = useState(false);
   const animationFrameRef = useRef(null);
 
@@ -328,7 +328,7 @@ const WorkflowEditor = ({ isExecuting, onNodeStatusChange, showProjectBuilder, p
       />
 
       <ActionButtons
-        onOpenNodesPanel={() => setOpenPanel1(true)}
+        onOpenNodesPanel={() => setOpenPanel1(prev => prev + 1)}
         onCopy={() => {}}
         onToggleCollapse={() => setIsSidebarCollapsed(prev => !prev)}
         onToggleAI={() => {}}
