@@ -1,5 +1,4 @@
-// ActionButtons.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const ActionButtons = ({ 
   onOpenNodesPanel, 
@@ -10,25 +9,10 @@ const ActionButtons = ({
 }) => {
   const [showTooltip, setShowTooltip] = useState(null);
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        onOpenNodesPanel();
-      } else if (e.key === 'F' && e.shiftKey) {
-        e.preventDefault();
-        onToggleCollapse();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onOpenNodesPanel, onToggleCollapse]);
-
   const actionButtonsStyle = {
     position: 'fixed',
-    right: isSidebarCollapsed ? '80px' : '300px',
-    top: '150px',
+    right: isSidebarCollapsed ? '20px' : '340px',
+    top: '190px', // CHANGED: from '20px' to '40px' (moved down 20px)
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
@@ -59,12 +43,6 @@ const ActionButtons = ({
     color: 'white',
   };
 
-  const aiBtnStyle = {
-    ...actionBtnStyle,
-    background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-    color: 'white',
-  };
-
   const tooltipStyle = {
     position: 'absolute',
     right: '60px',
@@ -84,6 +62,7 @@ const ActionButtons = ({
 
   return (
     <div style={actionButtonsStyle}>
+      {/* + Button opens Panel 1 */}
       <div
         style={highlightedStyle}
         onClick={onOpenNodesPanel}
@@ -91,11 +70,10 @@ const ActionButtons = ({
         onMouseLeave={() => setShowTooltip(null)}
       >
         <span style={{ fontSize: '24px' }}>+</span>
-        {showTooltip === 'nodes' && (
-          <div style={tooltipStyle}>Open nodes panel (Tab)</div>
-        )}
+        {showTooltip === 'nodes' && <div style={tooltipStyle}>Open nodes panel (Tab)</div>}
       </div>
 
+      {/* Copy Button */}
       <div
         style={actionBtnStyle}
         onClick={onCopy}
@@ -103,11 +81,10 @@ const ActionButtons = ({
         onMouseLeave={() => setShowTooltip(null)}
       >
         <span style={{ fontSize: '18px' }}>📄</span>
-        {showTooltip === 'copy' && (
-          <div style={tooltipStyle}>Copy</div>
-        )}
+        {showTooltip === 'copy' && <div style={tooltipStyle}>Copy</div>}
       </div>
 
+      {/* Sidebar Toggle */}
       <div
         style={actionBtnStyle}
         onClick={onToggleCollapse}
@@ -115,21 +92,18 @@ const ActionButtons = ({
         onMouseLeave={() => setShowTooltip(null)}
       >
         <span style={{ fontSize: '16px' }}>⊞</span>
-        {showTooltip === 'sidebar' && (
-          <div style={tooltipStyle}>Toggle Sidebar (↑F)</div>
-        )}
+        {showTooltip === 'sidebar' && <div style={tooltipStyle}>Toggle Sidebar (↑F)</div>}
       </div>
 
+      {/* AI Assistant */}
       <div
-        style={aiBtnStyle}
+        style={{ ...actionBtnStyle, background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', color: 'white' }}
         onClick={onToggleAI}
         onMouseEnter={() => setShowTooltip('ai')}
         onMouseLeave={() => setShowTooltip(null)}
       >
         <span style={{ fontSize: '18px' }}>✨</span>
-        {showTooltip === 'ai' && (
-          <div style={tooltipStyle}>AI Assistant</div>
-        )}
+        {showTooltip === 'ai' && <div style={tooltipStyle}>AI Assistant</div>}
       </div>
     </div>
   );

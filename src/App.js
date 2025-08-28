@@ -4,6 +4,7 @@ import Header from './components/Header';
 import WorkflowEditor from './components/WorkflowEditor';
 import ProjectBuilder from './components/ProjectBuilder';
 import './App.scss';
+import PanelManager from './components/PanelManager';
 
 const mockWorkflows = [
   { id: 'youtube-tutorials', name: 'YouTube Tutorials', type: 'youtube' },
